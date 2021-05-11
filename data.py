@@ -16,14 +16,13 @@ def main():
                 edges_array=dict()
                 seen_nodes=[]
                 for line in edges:
-                    #print(line)
                     a=line.split(" ")
                     a.remove(a[0])
                     if a[0] not in seen_nodes:
                         seen_nodes.append(a[0])
-                        edges_array[a[0]]=[a[1],a[2]]
+                        edges_array[a[0]]=(a[1],a[2])
                     else:
-                        edges_array[a[0]].append([[a[1]],a[2]])
+                        edges_array[a[0]].append((a[1],a[2]))
                     
                 print(edges_array)
 
