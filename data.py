@@ -14,7 +14,7 @@ def main():
                 for line in nodes:
                     a=line.split(" ")
                     nodes_array[a[0]]=(a[1],a[2])
-                #print(len(nodes_array))
+                
                 for line in edges:
                     a=line.split(" ")
                     a.remove(a[0])
@@ -23,13 +23,13 @@ def main():
                         edges_array[a[0]]=[(a[1],a[2])]
                     else:
                         edges_array[a[0]].append((a[1],a[2]))
-                #print(len(edges_array))
-                #for i in nodes_array.items():#,edges_array.items()):
-                #    print(i)
+
                 for i in edges_array.items():
-                    #print(i[0])
                     if nodes_array[i[0]]:
-                        print(nodes_array[i[0]],i.values())
+                        first_out = [item for t in i[1] for item in t]
+                        new_out=[s.strip() for s in first_out]
+                        sys.stdout=out
+                        print(i[0],nodes_array[i[0]][0],nodes_array[i[0]][1].rstrip("\n"),' '.join(new_out))
 
 
 
