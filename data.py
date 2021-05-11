@@ -10,11 +10,14 @@ def main():
         edges_file=sys.argv[2]
         
         with open(nodes_file,mode='r') as nodes,open(edges_file,mode='r')as edges,open('out.txt',mode='w',encoding='UTF8') as out:
-                #for line in nodes:
-                    #print(line)
-                global edges_array,seen_nodes
+
                 edges_array=dict()
                 seen_nodes=[]
+                nodes_array=dict()
+                for line in nodes:
+                    a=line.split(" ")
+                    nodes_array[a[0]]=(a[1],a[2])
+                print(len(nodes_array))
                 for line in edges:
                     a=line.split(" ")
                     a.remove(a[0])
@@ -23,9 +26,9 @@ def main():
                         edges_array[a[0]]=[(a[1],a[2])]
                     else:
                         edges_array[a[0]].append((a[1],a[2]))
-                    
-                print(edges_array)
-
+                print(len(edges_array))
+                
+                
 
 
 
