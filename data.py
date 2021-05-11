@@ -1,9 +1,6 @@
 #Eftihia Kiafa AM:3003
 import sys 
 
-
-
-
 def main():      
        
         nodes_file=sys.argv[1]
@@ -27,8 +24,10 @@ def main():
                     else:
                         edges_array[a[0]].append((a[1],a[2]))
                 print(len(edges_array))
-                
-                
+                for i in nodes_array.items():#,edges_array.items()):
+                    print(i)
+                for i in edges_array.items():
+                    print(i)
 
 
 
