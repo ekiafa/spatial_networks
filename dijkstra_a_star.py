@@ -23,14 +23,15 @@ import heapq
                  spd(source,i)=spd(source,top) 
                  path
 
-def spd(first_node,second_node):"""
+"""
 
 
-def calculate_distances(graph, starting_vertex):
+def calculate_distances(graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
-    distances[starting_vertex] = 0
+    
+    distances[source] = 0
 
-    pq = [(0, starting_vertex)]
+    pq = [(0, source)]
     while len(pq) > 0:
         current_distance, current_vertex = heapq.heappop(pq)
 
@@ -39,16 +40,20 @@ def calculate_distances(graph, starting_vertex):
         if current_distance > distances[current_vertex]:
             continue
 
+
         for neighbor, weight in graph[current_vertex].items():
             distance = current_distance + weight
+            print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
+
 
             # Only consider this new path if it's better than any path we've
             # already found.
-            if distance < distances[neighbor]:
+            if neighbor in graph and  distance < distances[neighbor]:
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
+            
 
-    return distances
+    return distances[target]
 
 
 
@@ -69,11 +74,9 @@ def main():
                 graph[node]=res_dct
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
-            #print(graph)
-            #print(node_points)
-            print(calculate_distances(graph, source))
+            
+            print(calculate_distances(graph, source,target))
 
-        
 
 
 
