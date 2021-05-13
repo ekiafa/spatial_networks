@@ -64,10 +64,14 @@ def main():
             for line in pointers:
                 node=line.split(' ')[0]
                 lst=line.split(' ')[3:]
-                res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)} #array to dictionary
+                                
+                res_dct = {lst[i]: float(lst[i + 1]) for i in range(0, len(lst), 2)} #array to dictionary
                 graph[node]=res_dct
-                node_points[node]=line.split(' ')[1:3]
-            
+                lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
+                node_points[node]=lst_to_floats
+            #print(graph)
+            #print(node_points)
+            print(calculate_distances(graph, source))
 
         
 
