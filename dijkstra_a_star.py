@@ -1,31 +1,39 @@
 import sys,math 
 import heapq
 
-""""def dijkstra(pointers_array,source,target):
+def dijkstra(graph,source,target):
     unseen=[]
     seen=[]
-    for i in pointers_array:
-        spd=math.inf
+    spd=dict()
+    for i in graph:
+        spd[source,i]=math.inf
         path=[]
         unseen.append(i)
     heap=[]
     heapq.heapify(heap)
-    heapq.heappush(source)
+
+    heapq.heappush(heap,source)
+    
     while len(heap)!=0:
       top=heap[0]
-      heapq.heappop(heap[0]) 
+      heapq.heappop(heap) 
       seen.append(top)
       if top==target:
           return path
-      for i in neighbors[top]:
+      for i in graph[top]:
           if i not in seen:
-              if spd(source,i)>spd(source,top):
-                 spd(source,i)=spd(source,top) 
-                 path
+              
+              if i in spd and spd[source,i]>spd[source,top]:
+            
+                spd[source,i]=spd[source,top] + weight
+                #path=
+                heapq.heappush(heap,i)
+                print(heap)
+       
+    return heap
+
 
 """
-
-
 def calculate_distances(graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
     
@@ -54,9 +62,7 @@ def calculate_distances(graph, source,target):
             
 
     return distances[target]
-
-
-
+"""
 def main():      
        
         out=sys.argv[1]
@@ -75,7 +81,7 @@ def main():
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
             
-            print(calculate_distances(graph, source,target))
+            print(dijkstra(graph, source,target))
 
 
 
