@@ -24,6 +24,7 @@ def dijkstra(graph,source,target):
       for i in graph[top].items():
           if i not in seen:
               print(i[0])
+              print(spd[source,i[0]])
               if spd[source,i[0]]>spd[source,top]:
                 print("mpainei")
                 spd[source,i[0]]=spd[source,top] + i[1]
@@ -37,17 +38,21 @@ def dijkstra(graph,source,target):
 
 def calculate_distances(graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
-    count=0
+    loops=0
     path=[]
     distances[source] = 0
 
     pq = [(0, source)]
+
     while len(pq) > 0:
+        loops+=1
+        
         current_distance, current_vertex = heapq.heappop(pq)
 
         # Nodes can get added to the priority queue multiple times. We only
         # process a vertex the first time we remove it from the priority queue.
         if current_distance > distances[current_vertex]:
+
             continue
 
 
@@ -60,14 +65,18 @@ def calculate_distances(graph, source,target):
             # already found.
             if neighbor in graph and  distance < distances[neighbor]:
                 path.append(neighbor)
+                
                 if neighbor==target:
+                    print(loops)
                     print(neighbor)
-                    print(path)
+                    print(len(path))
+                    
                 #count+=1
                 #print(count)
-                #print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
+                
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
+    print(pq)
             
 
     return distances[target],pq
@@ -90,7 +99,7 @@ def main():
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
             
-            print(dijkstra(graph, source,target))
+            print(calculate_distances(graph, source,target))
 
 
 
