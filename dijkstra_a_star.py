@@ -5,9 +5,10 @@ def dijkstra(graph,source,target):
     unseen=[]
     seen=[]
     spd=dict()
+    path=dict()
     for i in graph:
         spd[source,i]=math.inf
-        path=[]
+        path[source,i]=None
         unseen.append(i)
     heap=[]
     heapq.heapify(heap)
@@ -20,23 +21,24 @@ def dijkstra(graph,source,target):
       seen.append(top)
       if top==target:
           return path
-      for i in graph[top]:
+      for i in graph[top].items():
           if i not in seen:
-              
-              if i in spd and spd[source,i]>spd[source,top]:
-            
-                spd[source,i]=spd[source,top] + weight
-                #path=
-                heapq.heappush(heap,i)
+              print(i[0])
+              if spd[source,i[0]]>spd[source,top]:
+                print("mpainei")
+                spd[source,i[0]]=spd[source,top] + i[1]
+                path[source,i[0]]=path[source,top]+[top,i[0]]
+                heapq.heappush(heap,i[0])
                 print(heap)
        
     return heap
 
 
-"""
+
 def calculate_distances(graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
-    
+    count=0
+    path=[]
     distances[source] = 0
 
     pq = [(0, source)]
@@ -51,18 +53,25 @@ def calculate_distances(graph, source,target):
 
         for neighbor, weight in graph[current_vertex].items():
             distance = current_distance + weight
-            print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
+            #print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
 
 
             # Only consider this new path if it's better than any path we've
             # already found.
             if neighbor in graph and  distance < distances[neighbor]:
+                path.append(neighbor)
+                if neighbor==target:
+                    print(neighbor)
+                    print(path)
+                #count+=1
+                #print(count)
+                #print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
             
 
-    return distances[target]
-"""
+    return distances[target],pq
+
 def main():      
        
         out=sys.argv[1]

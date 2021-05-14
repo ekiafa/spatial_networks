@@ -19,11 +19,22 @@ def main():
                     a=line.split(" ")
                     a.remove(a[0])
                     if a[0] not in seen_nodes:
-                        seen_nodes.append(a[0])
+                        seen_nodes.append(a[0])                        
                         edges_array[a[0]]=[(a[1],a[2])]
+                        if a[1] not in seen_nodes:
+                            seen_nodes.append(a[1])
+                            edges_array[a[1]]=[(a[0],a[2])]
+                        else:
+                            edges_array[a[1]].append((a[0],a[2]))
+                        #edw prepei na mpei kai to antistrofo 0->1,1->0
                     else:
+                        
                         edges_array[a[0]].append((a[1],a[2]))
-
+                        if a[1] not in seen_nodes:
+                            seen_nodes.append(a[1])
+                            edges_array[a[1]]=[(a[0],a[2])]
+                        else:
+                            edges_array[a[1]].append((a[0],a[2]))
                 for i in edges_array.items():
                     if nodes_array[i[0]]:
                         first_out = [item for t in i[1] for item in t]
