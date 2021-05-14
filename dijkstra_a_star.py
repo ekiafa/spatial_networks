@@ -1,6 +1,8 @@
 import sys,math 
 import heapq
 
+
+path=[]
 def dijkstra(graph,source,target):
     unseen=[]
     seen=[]
@@ -39,6 +41,7 @@ def dijkstra(graph,source,target):
 def calculate_distances(graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
     loops=0
+    global path
     path=[]
     distances[source] = 0
 
@@ -67,19 +70,17 @@ def calculate_distances(graph, source,target):
                 path.append(neighbor)
                 
                 if neighbor==target:
-                    print(loops)
-                    print(neighbor)
-                    print(len(path))
+                    print("Loops Dijkstra Algorithm : ",loops)
+                    distances[neighbor] = distance
+                    return distances[neighbor],path
                     
-                #count+=1
-                #print(count)
                 
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
-    print(pq)
+    
             
 
-    return distances[target],pq
+    #return distances[target],path
 
 def main():      
        
@@ -99,7 +100,7 @@ def main():
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
             
-            print(calculate_distances(graph, source,target))
+            print("Dijkstra Algorithm Dictance and Path : ",calculate_distances(graph, source,target))
 
 
 
