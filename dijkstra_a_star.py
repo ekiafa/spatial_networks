@@ -100,10 +100,10 @@ def dijkstra(graph,start,goal):
             elif shortest_distance[node] < shortest_distance[minNode]:
                 minNode = node
 
-        for childNode, weight in graph[minNode].items():
-            if weight + shortest_distance[minNode] < shortest_distance[childNode]:
-                shortest_distance[childNode] = weight + shortest_distance[minNode]
-                predecessor[childNode] = minNode
+        for neighbor, weight in graph[minNode].items():
+            if weight + shortest_distance[minNode] < shortest_distance[neighbor]:
+                shortest_distance[neighbor] = weight + shortest_distance[minNode]
+                predecessor[neighbor] = minNode
         unseenNodes.pop(minNode)
         if minNode==goal:
             break
