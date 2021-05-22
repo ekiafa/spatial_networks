@@ -125,13 +125,11 @@ def dijkstra(graph,start,goal):
 
 def euclidean_distance(p1,p2):
 
-    p1[0]=float(p1[0])
-    p2[0]=float(p2[0])
-    p1[1]=float(p1[0])
-    p2[1]=float(p2[0])    
-    print(p1,p2)
-    distance = math.sqrt( ((p1[0]-p2[0])**2)+((p1[1]-p2[1])**2) )
-    
+      
+    #print(p1,p2)
+    #print(((p1[0]-p2[0])**2)+(p1[1]-p2[1])**2)
+    distance = math.sqrt( (p1[0]-p2[0])**2 +(p1[1]-p2[1])**2 )
+    print(distance)
     return distance
 
 
@@ -155,9 +153,9 @@ def a_star(node_points,graph,start,goal):
 
         for neighbor, weight in graph[minNode].items():
             
-            if euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) + shortest_distance[minNode] < euclidean_distance(node_points[str(neighbor)],node_points[str(goal)]) + shortest_distance[neighbor]:
+            if weight + shortest_distance[minNode] <  shortest_distance[neighbor]:
                 
-                shortest_distance[neighbor] =  euclidean_distance(node_points[str(minNode)],node_points[str(goal)])+shortest_distance[minNode]
+                shortest_distance[neighbor] =  euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) + shortest_distance[minNode]
                 predecessor[neighbor] = minNode
         unseenNodes.pop(minNode)
         if minNode==goal:
@@ -254,12 +252,13 @@ def main():
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
             gr=graph
-            print(dijkstra(graph,source,target))
-            print(dijkstra_loops)
+            
+            #print(dijkstra(graph,source,target))
+            #print(dijkstra_loops)
             
             
-            #print(a_star(node_points,gr,source,target))
-            #print(a_star_loops)
+            print(a_star(node_points,gr,source,target))
+            print(a_star_loops)
 
 
 
