@@ -1,6 +1,6 @@
 import sys,math,copy
 
-
+paths_array=[]
 def dijkstra(graph,start,goal):
     shortest_distance = {}
     predecessor = {}
@@ -9,9 +9,9 @@ def dijkstra(graph,start,goal):
     for node in unseenNodes:
         shortest_distance[node] = math.inf
     shortest_distance[start] = 0
-    #global dijkstra_loops
+    
     while unseenNodes:
-        #dijkstra_loops+=1
+        
         minNode = None
         for node in unseenNodes:
             if minNode is None:
@@ -37,9 +37,10 @@ def dijkstra(graph,start,goal):
             break
     path.insert(0,start)
     if shortest_distance[goal] != math.inf:
-        print("Dijkstra")
-        print('Shortest distance is ' + str(shortest_distance[goal]))
-        print('And the path is ' + str(path))
+        #print("Dijkstra")
+       # print('Shortest distance is ' + str(shortest_distance[goal]))
+        #print('And the path is ' + str(path))
+        paths_array.append(path)
 
 
 
@@ -51,6 +52,7 @@ def main():
         source1=sys.argv[2]
         source2=sys.argv[3]
         source3=sys.argv[4]
+
         with open('out.txt' ,mode='r') as pointers:
             graph=dict()
             node_points=dict()
@@ -64,9 +66,19 @@ def main():
                 node_points[node]=lst_to_floats
 
         gr=graph
-        print(len(graph))
-        print(dijkstra(graph,source1,'55'))
-        print(len(graph))
+        
+        dijkstra(graph,source1,'21047')
+        dijkstra(graph,source2,'21047')
+        dijkstra(graph,source3,'21047')
+
+
+        for i in paths_array[0]:
+            for j in paths_array[1]:
+                for k in paths_array[2]:
+                    if i==j and j==k:
+                        print(i)
+                    
+
 
 
 
