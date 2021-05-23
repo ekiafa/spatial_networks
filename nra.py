@@ -47,8 +47,11 @@ def dijkstra(graph,start,goal):
 
 def main():      
        
-
-
+        out=sys.argv[1]
+        source1=sys.argv[2]
+        source2=sys.argv[3]
+        source3=sys.argv[4]
+        
 
 
 
