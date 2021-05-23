@@ -51,7 +51,17 @@ def main():
         source1=sys.argv[2]
         source2=sys.argv[3]
         source3=sys.argv[4]
-        
+        with open('out.txt' ,mode='r') as pointers:
+            graph=dict()
+            node_points=dict()
+            for line in pointers:
+                node=line.split(' ')[0]
+                lst=line.split(' ')[3:]
+                                
+                res_dct = {lst[i]: float(lst[i + 1]) for i in range(0, len(lst), 2)} #array to dictionary
+                graph[node]=res_dct
+                lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
+                node_points[node]=lst_to_floats
 
 
 
