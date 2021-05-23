@@ -1,4 +1,4 @@
-import sys,math 
+import sys,math,copy
 import heapq
 
 
@@ -86,7 +86,7 @@ def dijkstra(graph,source,target):
 def dijkstra(graph,start,goal):
     shortest_distance = {}
     predecessor = {}
-    unseenNodes = graph
+    unseenNodes = copy.deepcopy(graph)
     path = []
     for node in unseenNodes:
         shortest_distance[node] = math.inf

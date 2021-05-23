@@ -1,17 +1,17 @@
-
+import sys,math,copy
 
 
 def dijkstra(graph,start,goal):
     shortest_distance = {}
     predecessor = {}
-    unseenNodes = graph
+    unseenNodes = copy.deepcopy(graph)
     path = []
     for node in unseenNodes:
         shortest_distance[node] = math.inf
     shortest_distance[start] = 0
-    global dijkstra_loops
+    #global dijkstra_loops
     while unseenNodes:
-        dijkstra_loops+=1
+        #dijkstra_loops+=1
         minNode = None
         for node in unseenNodes:
             if minNode is None:
@@ -63,9 +63,10 @@ def main():
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
 
-
-
-
+        gr=graph
+        print(len(graph))
+        print(dijkstra(graph,source1,'55'))
+        print(len(graph))
 
 
 
