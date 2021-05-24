@@ -1,5 +1,6 @@
 import sys,math,copy
 import heapq
+from math import sqrt
 
 
 path=[]
@@ -123,16 +124,18 @@ def dijkstra(graph,start,goal):
         print('Shortest distance is ' + str(shortest_distance[goal]))
         print('And the path is ' + str(path))
 
-def euclidean_distance(p1,p2):
 
-    distance = math.sqrt( (p1[0]-p2[0])**2 +(p1[1]-p2[1])**2 )
+def euclidean_distance(p1,p2):
+    
+    distance = sqrt( (p2[0]-p1[0])*(p2[0]-p1[0]) + (p2[1]-p1[1])* (p2[1]-p1[1]))
+    
     return distance
 
 
 def a_star(node_points,graph,start,goal):
     shortest_distance = {}
     predecessor = {}
-    unseenNodes = graph
+    unseenNodes = copy.deepcopy(graph)
     path = []
     for node in unseenNodes:
         shortest_distance[node] = math.inf
@@ -145,14 +148,16 @@ def a_star(node_points,graph,start,goal):
             if minNode is None:
                 minNode = node
             elif shortest_distance[node] < shortest_distance[minNode]:
+                
                 minNode = node
 
         for neighbor, weight in graph[minNode].items():
-            
-            if weight + shortest_distance[minNode] <  shortest_distance[neighbor]:
+            #print(euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) +  weight  + shortest_distance[minNode] , shortest_distance[neighbor])
+            if euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) +  weight  + shortest_distance[minNode] < shortest_distance[neighbor]:
                 
-                shortest_distance[neighbor] =  euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) + shortest_distance[minNode]
+                shortest_distance[neighbor] = weight + shortest_distance[minNode]
                 predecessor[neighbor] = minNode
+                
         unseenNodes.pop(minNode)
         if minNode==goal:
             break
@@ -160,6 +165,7 @@ def a_star(node_points,graph,start,goal):
     currentNode = goal
     while currentNode != start:
         try:
+        
             path.insert(0,currentNode)
             currentNode = predecessor[currentNode]
         except KeyError:
@@ -170,29 +176,29 @@ def a_star(node_points,graph,start,goal):
         print("A star")
         print('Shortest distance is ' + str(shortest_distance[goal]))
         print('And the path is ' + str(path))
+        
 
 
 
 
-"""
 
-def calculate_distances(graph, source,target):
+
+         
+def calculate_distances(node_points,graph, source,target):
     distances = {vertex: float('infinity') for vertex in graph}
     loops=0
     global path
-    path=[]
+    path1=[]
     distances[source] = 0
     predecessors={}
 
     pq = [(0, source)]
 
     while len(pq) > 0:
-        loops+=1
+        #loops+=1
         
         current_distance, current_vertex = heapq.heappop(pq)
-        if current_vertex=='55':
-            print('true')
-            #break
+        print(current_distance)
 
 
         # Nodes can get added to the priority queue multiple times. We only
@@ -200,35 +206,39 @@ def calculate_distances(graph, source,target):
         if current_distance > distances[current_vertex]:
 
             continue
+        else:
+            loops+=1
 
 
         for neighbor, weight in graph[current_vertex].items():
-            distance = current_distance + weight
+            distance = current_distance + weight +  euclidean_distance(node_points[current_vertex],node_points[str(target)])
             #print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
 
 
             # Only consider this new path if it's better than any path we've
-            # already found.
-            if neighbor in graph and  current_distance + weight < distances[neighbor]:
-                #print("from neighbor "+str(neighbor)+' the distance is '+str(current_distance + weight))
-                path.append(neighbor)
+            # already found. 
+            if distance< distances[neighbor]:
+
+                path1.append(current_vertex)
                 
                 if current_vertex==target:
-                    print("Loops Dijkstra Algorithm : ",loops)
-                    distances[neighbor] = current_distance + weight
+                    print("A star Algorithm loops: ",loops)
+                    distances[neighbor] = current_distance + weight 
                     predecessors[neighbor] = target
                     #print(predecessors.values().unique())
-                    return distances[neighbor]
+                    return distances[target]
                     
                 predecessors[neighbor] = current_vertex
-                distances[neighbor] = current_distance + weight
+                distances[neighbor] = current_distance + weight+ euclidean_distance(node_points[current_vertex],node_points[str(target)])
                 
-                heapq.heappush(pq, (current_distance + weight, neighbor))
+                heapq.heappush(pq, (current_distance + weight , neighbor))
     
             
 
     #return distances[target],path
-"""
+
+
+
 
 def main():      
        
@@ -247,16 +257,17 @@ def main():
                 graph[node]=res_dct
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
-            gr=graph
             
-            #print(dijkstra(graph,source,target))
-            #print(dijkstra_loops)
+            #print(graph['1'])
+            dijkstra(graph,source,target)
+            print(dijkstra_loops)
             
             
-            print(a_star(node_points,gr,source,target))
-            print(a_star_loops)
 
+            #a_star(node_points,graph,source,target)
+            #print(a_star_loops)
 
+            #print(calculate_distances(node_points,graph, source,target))
 
 
 
