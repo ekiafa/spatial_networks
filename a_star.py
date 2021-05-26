@@ -56,6 +56,7 @@ def dijkstra_algorithm(node_points,graph, start_node, stop_node):
             path.reverse()
         
             print("Dijkstra's Path found: {}".format(path))
+            print("Distance:",g[stop_node])
             print("Loops:",loops)
             return path
 
@@ -135,9 +136,9 @@ def a_star_algorithm(node_points,graph, start_node, stop_node):
             path.reverse()
             
             print(" A-star's Path found: {}".format(path))
+            print("Distance:",g[stop_node])
             print("Loops:",loops)
             
-            print()
             return path
 
         # for all neighbors of the current node do
@@ -148,6 +149,7 @@ def a_star_algorithm(node_points,graph, start_node, stop_node):
                 open_list.add(m)
                 parents[m] = n
                 g[m] = g[n] + weight
+                #print(g[m])
 
             # otherwise, check if it's quicker to first visit n, then m
             # and if it is, update parent data and g data
@@ -156,13 +158,14 @@ def a_star_algorithm(node_points,graph, start_node, stop_node):
                 if g[m] > g[n] + weight:
                     g[m] = g[n] + weight
                     parents[m] = n
-
+                    
                     if m in closed_list:
                         closed_list.remove(m)
                         open_list.add(m)
 
         # remove n from the open_list, and add it to closed_list
         # because all of his neighbors were inspected
+        
         open_list.remove(n)
         closed_list.add(n)
 
