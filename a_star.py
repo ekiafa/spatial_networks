@@ -130,9 +130,9 @@ def a_star_algorithm(node_points,graph, start_node, stop_node):
             while parents[n] != n:
                 path.append(n)
                 n = parents[n]
-
+                
             path.append(start_node)
-
+            
             path.reverse()
             
             print(" A-star's Path found: {}".format(path))
@@ -187,7 +187,7 @@ def main():
             for line in pointers:
                 node=line.split(' ')[0]
                 lst=line.split(' ')[3:]
-                #print(lst)
+                
                 res_dct = {lst[i]: float(lst[i + 1]) for i in range(0, len(lst), 2)} #array to dictionary
                 graph[node]=res_dct
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
