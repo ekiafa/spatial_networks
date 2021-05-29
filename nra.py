@@ -115,14 +115,17 @@ def calculate_distances(graph, starting_vertex):
 
 
 
-def nra(graph,source1,source2,source3):
+def nra(graph,source1,source2,source3,source4,source5,source6):
            
             
             s1=calculate_distances(graph, source1)
             s2=calculate_distances(graph, source2)
             s3=calculate_distances(graph, source3)
-            
-            c = dict(sorted(chain(s1.items(), s2.items(),s3.items()), key=lambda t: t[1]))
+            s4=calculate_distances(graph, source4)
+            s5=calculate_distances(graph, source5)
+            s6=calculate_distances(graph, source6)
+                        
+            c = dict(sorted(chain(s1.items(), s2.items(),s3.items(),s4.items(), s5.items(),s6.items()), key=lambda t: t[1]))
             n=min(c, key=c.get)
             
             print("best meeting point:",n)
@@ -131,7 +134,9 @@ def nra(graph,source1,source2,source3):
             dijkstra_algorithm(graph, source1,n)
             dijkstra_algorithm(graph, source2,n)
             dijkstra_algorithm(graph, source3,n)
-            
+            dijkstra_algorithm(graph, source4,n)
+            dijkstra_algorithm(graph, source5,n)
+            dijkstra_algorithm(graph, source6,n)           
                 
                                          
 
@@ -147,6 +152,9 @@ def main():
         source1=sys.argv[2]
         source2=sys.argv[3]
         source3=sys.argv[4]
+        source4=sys.argv[5]
+        source5=sys.argv[6]
+        source6=sys.argv[7]
 
         with open('out.txt' ,mode='r') as pointers:
             graph=dict()
@@ -161,7 +169,7 @@ def main():
                 node_points[node]=lst_to_floats
 
         
-        nra(graph,source1,source2,source3)
+        nra(graph,source1,source2,source3,source4,source5,source6)
 
 
 
