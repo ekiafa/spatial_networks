@@ -1,7 +1,9 @@
+#Eftihia Kiafa AM:3003
 import sys,math
 from math import sqrt
 from collections import deque
-
+import time
+start_time = time.time()
 
 def euclidean_distance(p1,stop_node):
 
@@ -199,6 +201,7 @@ def main():
 
 
 
+print("--- %s seconds ---" % (time.time() - start_time))
 
 
 

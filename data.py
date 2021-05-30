@@ -26,7 +26,7 @@ def main():
                             edges_array[a[1]]=[(a[0],a[2])]
                         else:
                             edges_array[a[1]].append((a[0],a[2]))
-                        #edw prepei na mpei kai to antistrofo 0->1,1->0
+                        
                     else:
                         
                         edges_array[a[0]].append((a[1],a[2]))

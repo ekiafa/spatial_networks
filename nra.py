@@ -1,6 +1,8 @@
+#Eftihia Kiafa AM:3003
 import sys
 from itertools import chain
-
+import time 
+start=time.time()
 
 def dijkstra_algorithm(graph, start_node,stop_node):
     
@@ -107,6 +109,7 @@ def calculate_distances(graph, starting_vertex):
             # already found.
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
+                yield neighbor,distances[neighbor]
                 
                 heapq.heappush(pq, (distance, neighbor))
     return distances
@@ -114,47 +117,143 @@ def calculate_distances(graph, starting_vertex):
 
 
 
-
-def nra(graph,source1,source2,source3,source4,source5,source6):
+def nra(graph,source1,source2,source3):
            
-            
+           
             s1=calculate_distances(graph, source1)
+            
             s2=calculate_distances(graph, source2)
             s3=calculate_distances(graph, source3)
-            s4=calculate_distances(graph, source4)
-            s5=calculate_distances(graph, source5)
-            s6=calculate_distances(graph, source6)
-                        
-            c = dict(sorted(chain(s1.items(), s2.items(),s3.items(),s4.items(), s5.items(),s6.items()), key=lambda t: t[1]))
+           
+            c = dict(sorted(chain(s1.items(), s2.items(),s3.items()), key=lambda t: t[1]))
             n=min(c, key=c.get)
             
             print("best meeting point:",n)
             print("Shortest path distance:",c[n])
             print("paths:")
+            
             dijkstra_algorithm(graph, source1,n)
             dijkstra_algorithm(graph, source2,n)
-            dijkstra_algorithm(graph, source3,n)
-            dijkstra_algorithm(graph, source4,n)
-            dijkstra_algorithm(graph, source5,n)
-            dijkstra_algorithm(graph, source6,n)           
-                
+            dijkstra_algorithm(graph, source3,n)          
+         
                                          
 
+def nra1(graph,source1,source2,source3):
+    #upper and lower bounds dictinaries
+    f_ub=dict()
+    f_lb=dict()
+    final_ub=dict()
+    #arrays for saving the element that we see in each res1,res2,res3
+    r1_array=dict.fromkeys(graph, 0)
+    r2_array=dict.fromkeys(graph, 0)
+    r3_array=dict.fromkeys(graph, 0)
+    #calculate distances for each initial node
+    res1=calculate_distances(graph, source1)
+    res2=calculate_distances(graph, source2)
+    res3=calculate_distances(graph, source3)
+    for i,j,k in zip(res1,res2,res3):
+        a=str(i[0])
+        b=str(j[0])
+        c=str(k[0])
+
+        r1_array[a]=i[1]
+        r2_array[b]=j[1]
+        r3_array[c]=k[1]
+        #calc lower bounds sums
+        if a not in f_lb:
+            f_lb[a]=i[1]
+        else:
+            f_lb[a]+=i[1]
+        if b not in f_lb:
+            f_lb[b]=j[1]
+        else:
+            f_lb[b]+=j[1]            
+        if c not in f_lb:
+            f_lb[c]=k[1]
+        else:
+            f_lb[c]+=k[1]
+
+        # there are 3 possible situations:
+        
+
+        
+        #calc upper bounds sums 
+        #1.We have see the element in one of three r1_array,r2_array,r3_array and not in f_ub
+        
+        if a not in f_ub:
+            if a in r1_array:
+
+                f_ub[a]=i[1]
+            elif a in r2_array:
+                f_ub[a]=i[1]
+            else:
+                f_ub[a]=i[1]
+
+        if b not in f_ub:
+            if b in r1_array:
+
+                f_ub[b]=j[1]
+            elif b in r2_array:
+                f_ub[b]=j[1]
+            else:
+                f_ub[b]=j[1]
+
+        if c not in f_ub:
+            if c in r1_array:
+
+                f_ub[c]=k[1]
+            elif c in r2_array:
+                f_ub[c]=k[1]
+            else:
+                f_ub[c]=k[1]
+
+
+        #2.We have see the element in two of three r1_array,r2_array,r3_array
+        if a in r1_array and a in r2_array:
+            f_ub[a]=r1_array[a]+r2_array[a]+k[1]
+        elif a in r1_array and a in r3_array:
+            f_ub[a]=r1_array[a]+r3_array[a]+j[1]
+        else:
+            f_ub[a]=r2_array[a]+r3_array[a]+i[1]
+
+        if b in r1_array and b in r2_array:
+            f_ub[b]=r1_array[b]+r2_array[b]+k[1]
+        elif b in r1_array and b in r3_array:
+            f_ub[b]=r1_array[b]+r3_array[b]+j[1]
+        else:
+            f_ub[b]=r2_array[b]+r3_array[b]+i[1]
+
+
+        if c in r1_array and c in r2_array:
+            f_ub[c]=r1_array[c]+r2_array[c]+k[1]
+        elif b in r1_array and b in r3_array:
+            f_ub[c]=r1_array[c]+r3_array[c]+j[1]
+        else:
+            f_ub[c]=r2_array[c]+r3_array[c]+i[1]
 
 
 
 
+        #3.We have see the element in three of three r1_array,r2_array,r3_array
+        if a in r1_array and a in r2_array and a in r3_array:
+            final_ub[a]=max(r1_array[a],r2_array[a],r3_array[a])
+        
+        if b in r1_array and b in r1_array and b in r1_array:
+            final_ub[b]=max(r1_array[b],r2_array[b],r3_array[b])
+            
+        if c in r1_array and c in r1_array and c in r1_array:
+            final_ub[c]=max(r1_array[c],r2_array[c],r3_array[c])  
+        print(min(final_ub, key=final_ub.get))
+    
 
 
 def main():      
-       
+        
         out=sys.argv[1]
         source1=sys.argv[2]
         source2=sys.argv[3]
         source3=sys.argv[4]
-        source4=sys.argv[5]
-        source5=sys.argv[6]
-        source6=sys.argv[7]
+
 
         with open('out.txt' ,mode='r') as pointers:
             graph=dict()
@@ -169,10 +268,13 @@ def main():
                 node_points[node]=lst_to_floats
 
         
-        nra(graph,source1,source2,source3,source4,source5,source6)
+        #nra(graph,source1,source2,source3)
+        #res=calculate_distances(graph, source1)
+        #for i in res:
+            #print(i)
 
-
-
+        print(nra1(graph,source1,source2,source3))
+print(time.time()-start)
 
 
 
