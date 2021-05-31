@@ -1,242 +1,170 @@
-import sys,math,copy
-import heapq
+#Eftihia Kiafa AM:3003
+import sys
 from math import sqrt
 
 
-path=[]
-dijkstra_loops=0
-a_star_loops=0
-'''
+def euclidean_distance(p1,stop_node):
 
-loops=0
-def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
+    distance = sqrt( (stop_node[0]-p1[0])*(stop_node[0]-p1[0]) + (stop_node[1]-p1[1])* (stop_node[1]-p1[1]))
 
-    if src == dest:
-        # We build the shortest path and display it
-        path=[]
-        pred=dest
-        while pred != None:
-            path.append(pred)
-            pred=predecessors.get(pred,None)
-
-        print('shortest path : '+str(list(reversed(path))))
-        print("cost="+str(distances[dest]))     
-    else :     
-        
-        if not visited: 
-            distances[src]=0
-        # visit the neighbors
-        for neighbor in graph[src] :
-            if neighbor not in visited:
-                new_distance = distances[src] + graph[src][neighbor]
-                if new_distance < distances.get(neighbor,float('inf')):
-                    distances[neighbor] = new_distance
-                    predecessors[neighbor] = src
-        # mark as visited
-        visited.append(src)
-        # now that all neighbors have been visited: recurse                         
-        # select the non visited node with lowest distance 'x'
-        # run Dijskstra with src='x'
-        unvisited={}
-        for k in graph:
-            if k not in visited:
-                unvisited[k] = distances.get(k,float('inf'))        
-        x=min(unvisited, key=unvisited.get)
-        
-        global loops
-        loops+=1
-        dijkstra(graph,x,dest,visited,distances,predecessors)
-'''
-"""       
-def dijkstra(graph,source,target):
-    unseen=[]
-    seen=[]
-    spd=dict()
-    path=dict()
-    for i in graph:
-        spd[source,i]=math.inf
-        path[source,i]=None
-        unseen.append(i)
-    heap=[]
-    heapq.heapify(heap)
-
-    heapq.heappush(heap,source)
-    
-    while len(heap)!=0:
-      top=heap[0]
-      heapq.heappop(heap) 
-      seen.append(top)
-      if top==target:
-          return path
-      for i in graph[top].items():
-          if i not in seen:
-              print(i[0])
-              print(spd[source,i[0]])
-              if spd[source,i[0]]>spd[source,top]:
-                print("mpainei")
-                spd[source,i[0]]=spd[source,top] + i[1]
-                path[source,i[0]]=path[source,top]+[top,i[0]]
-                heapq.heappush(heap,i[0])
-                print(heap)
-       
-    return heap
-
-"""
-
-
-def dijkstra(graph,start,goal):
-    shortest_distance = {}
-    predecessor = {}
-    unseenNodes = copy.deepcopy(graph)
-    path = []
-    for node in unseenNodes:
-        shortest_distance[node] = math.inf
-    shortest_distance[start] = 0
-    global dijkstra_loops
-    while unseenNodes:
-        dijkstra_loops+=1
-        minNode = None
-        for node in unseenNodes:
-            if minNode is None:
-                minNode = node
-            elif shortest_distance[node] < shortest_distance[minNode]:
-                minNode = node
-
-        for neighbor, weight in graph[minNode].items():
-            if weight + shortest_distance[minNode] < shortest_distance[neighbor]:
-                shortest_distance[neighbor] = weight + shortest_distance[minNode]
-                predecessor[neighbor] = minNode
-        unseenNodes.pop(minNode)
-        if minNode==goal:
-            break
-
-    currentNode = goal
-    while currentNode != start:
-        try:
-            path.insert(0,currentNode)
-            currentNode = predecessor[currentNode]
-        except KeyError:
-            print('Path not reachable.')
-            break
-    path.insert(0,start)
-    if shortest_distance[goal] != math.inf:
-        print("Dijkstra")
-        print('Shortest distance is ' + str(shortest_distance[goal]))
-        print('And the path is ' + str(path))
-
-
-def euclidean_distance(p1,p2):
-    
-    distance = sqrt( (p2[0]-p1[0])*(p2[0]-p1[0]) + (p2[1]-p1[1])* (p2[1]-p1[1]))
-    
     return distance
 
 
-def a_star(node_points,graph,start,goal):
-    shortest_distance = {}
-    predecessor = {}
-    unseenNodes = copy.deepcopy(graph)
-    path = []
-    for node in unseenNodes:
-        shortest_distance[node] = math.inf
-    shortest_distance[start] = 0
-    global a_star_loops
-    while unseenNodes:
-        a_star_loops+=1
-        minNode = None
-        for node in unseenNodes:
-            if minNode is None:
-                minNode = node
-            elif shortest_distance[node] < shortest_distance[minNode]:
-                
-                minNode = node
-
-        for neighbor, weight in graph[minNode].items():
-            #print(euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) +  weight  + shortest_distance[minNode] , shortest_distance[neighbor])
-            if euclidean_distance(node_points[str(minNode)],node_points[str(goal)]) +  weight  + shortest_distance[minNode] < shortest_distance[neighbor]:
-                
-                shortest_distance[neighbor] = weight + shortest_distance[minNode]
-                predecessor[neighbor] = minNode
-                
-        unseenNodes.pop(minNode)
-        if minNode==goal:
-            break
-
-    currentNode = goal
-    while currentNode != start:
-        try:
-        
-            path.insert(0,currentNode)
-            currentNode = predecessor[currentNode]
-        except KeyError:
-            print('Path not reachable.')
-            break
-    path.insert(0,start)
-    if shortest_distance[goal] != math.inf:
-        print("A star")
-        print('Shortest distance is ' + str(shortest_distance[goal]))
-        print('And the path is ' + str(path))
-        
-
-
-
-
-
-
-         
-def calculate_distances(node_points,graph, source,target):
-    distances = {vertex: float('infinity') for vertex in graph}
-    loops=0
-    global path
-    path1=[]
-    distances[source] = 0
-    predecessors={}
-
-    pq = [(0, source)]
-
-    while len(pq) > 0:
-        #loops+=1
-        
-        current_distance, current_vertex = heapq.heappop(pq)
-        print(current_distance)
-
-
-        # Nodes can get added to the priority queue multiple times. We only
-        # process a vertex the first time we remove it from the priority queue.
-        if current_distance > distances[current_vertex]:
-
-            continue
-        else:
-            loops+=1
-
-
-        for neighbor, weight in graph[current_vertex].items():
-            distance = current_distance + weight +  euclidean_distance(node_points[current_vertex],node_points[str(target)])
-            #print("from neighbor "+str(neighbor)+' the distance is '+str(distance))
-
-
-            # Only consider this new path if it's better than any path we've
-            # already found. 
-            if distance< distances[neighbor]:
-
-                path1.append(current_vertex)
-                
-                if current_vertex==target:
-                    print("A star Algorithm loops: ",loops)
-                    distances[neighbor] = current_distance + weight 
-                    predecessors[neighbor] = target
-                    #print(predecessors.values().unique())
-                    return distances[target]
-                    
-                predecessors[neighbor] = current_vertex
-                distances[neighbor] = current_distance + weight+ euclidean_distance(node_points[current_vertex],node_points[str(target)])
-                
-                heapq.heappush(pq, (current_distance + weight , neighbor))
+def dijkstra_algorithm(graph, start_node, stop_node):
     
+    # unseen is a list of nodes which have been visite,starts with the start node
+    # seen is a list of nodes which have been visited or have been inspected
+    unseen = set([start_node])
+    seen = set([])
+
+    # dist contains current distances from start_node to all other nodes
+    dist = {}
+    loops=0
+    dist[start_node] = 0
+
+    # predecessors contains an adjacency map of all nodes
+    predecessors = {}
+    predecessors[start_node] = start_node
+
+    while len(unseen) > 0:
+        loops+=1
+        n = None
+
+        # find a node with the lowest value of f() - evaluation function
+        for v in unseen:
+            if n == None or dist[v] < dist[n] :
+                n = v;
+
+        if n == None:
+            print('Path does not exist!')
+            return None
+
+        # if the current node is the stop_node
+        # then we begin make the path from it to the start_node
+        if n == stop_node:
+            path = []
+
+            while predecessors[n] != n:
+                path.append(n)
+                n = predecessors[n]
+
+            path.append(start_node)
+
+            path.reverse()
+        
+            print("Dijkstra's Path found: {}".format(path))
+            print("Distance:",dist[stop_node])
+            print("Loops:",loops)
+            return path
+
+        # for all neighbors of the current node do
+        for m, weight in graph[n].items():
+            # if the current node isn't in both unseen and seen
+            # add it to unseen and note n as it's predecessor
+            if m not in unseen and m not in seen:
+                unseen.add(m)
+                predecessors[m] = n
+                dist[m] = dist[n] + weight
+
+            # otherwise, check if it's quicker to first visit n, then m
+            # and if it is, update predecessor data and dist data
+            # and if the node was in the seen, move it to unseen
+            else:
+                if dist[m] > dist[n] + weight:
+                    dist[m] = dist[n] + weight
+                    predecessors[m] = n
+
+                    if m in seen:
+                        seen.remove(m)
+                        unseen.add(m)
+
+        # remove n from the unseen, and add it to seen
+        # because all of his neighbors were inspected
+        unseen.remove(n)
+        seen.add(n)
+
+    print('Path does not exist!')
+    return None
+
+
+def a_star_algorithm(node_points,graph, start_node, stop_node):
+    
+    # unseen is a list of nodes which have been visite,starts with the start node
+    # seen is a list of nodes which have been visited or have been inspected
+    unseen = set([start_node])
+    seen = set([])
+
+    # dist contains current distances from start_node to all other nodes
+    dist = {}
+    loops=0
+    dist[start_node] = 0
+
+    # predecessors contains an adjacency map of all nodes
+    predecessors = {}
+    predecessors[start_node] = start_node
+
+    while len(unseen) > 0:
+        loops+=1
+        n = None
+
+        # find a node with the lowest value of f() - evaluation function
+        for v in unseen:
+            if n == None or dist[v] + euclidean_distance(node_points[str(v)],node_points[str(stop_node)]) < dist[n] + euclidean_distance(node_points[str(n)],node_points[str(stop_node)]):
+                n = v;
+
+        if n == None:
+            print('Path does not exist!')
+            return None
+
+        # if the current node is the stop_node
+        # then we begin make the path from it to the start_node
+        if n == stop_node:
+            path = []
+
+            while predecessors[n] != n:
+                path.append(n)
+                n = predecessors[n]
+                
+            path.append(start_node)
             
+            path.reverse()
+            
+            print(" A-star's Path found: {}".format(path))
+            print("Distance:",dist[stop_node])
+            print("Loops:",loops)
+            
+            return path
 
-    #return distances[target],path
+        # for all neighbors of the current node do
+        for m, weight in graph[n].items():
+            # if the current node isn't in both unseen and seen
+            # add it to unseen and note n as it's parent
+            if m not in unseen and m not in seen:
+                unseen.add(m)
+                predecessors[m] = n
+                dist[m] = dist[n] + weight
+                #print(dist[m])
 
+            # otherwise, check if it's quicker to first visit n, then m
+            # and if it is, update predecessor data and g data
+            # and if the node was in the seen, move it to unseen
+            else:
+                if dist[m] > dist[n] + weight:
+                    dist[m] = dist[n] + weight
+                    predecessors[m] = n
+                    
+                    if m in seen:
+                        seen.remove(m)
+                        unseen.add(m)
+
+        # remove n from the unseen, and add it to seen
+        # because all of his neighbors were inspected
+        
+        unseen.remove(n)
+        seen.add(n)
+
+    print('Path does not exist!')
+    return None
 
 
 
@@ -247,31 +175,21 @@ def main():
         target=sys.argv[3]
 
         with open('out.txt' ,mode='r') as pointers:
+            
             graph=dict()
             node_points=dict()
             for line in pointers:
                 node=line.split(' ')[0]
                 lst=line.split(' ')[3:]
-                                
+                
                 res_dct = {lst[i]: float(lst[i + 1]) for i in range(0, len(lst), 2)} #array to dictionary
                 graph[node]=res_dct
                 lst_to_floats = [float(item) for item in line.split(' ')[1:3]]
                 node_points[node]=lst_to_floats
-            
-            #print(graph['1'])
-            dijkstra(graph,source,target)
-            print(dijkstra_loops)
-            
-            
-
-            #a_star(node_points,graph,source,target)
-            #print(a_star_loops)
-
-            #print(calculate_distances(node_points,graph, source,target))
-
-
-
-
+        
+        dijkstra_algorithm(graph, source, target)
+        print("\n")
+        a_star_algorithm(node_points,graph, source, target)
 
 
 
