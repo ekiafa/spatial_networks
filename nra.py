@@ -2,6 +2,8 @@
 import sys
 import heapq
 
+import time 
+
 global paths1,paths2,paths3
 paths1={}
 paths2={}
@@ -49,7 +51,7 @@ def calculate_distances(graph, starting_vertex):
 
 
 
-def nra1(graph,source1,source2,source3):
+def nra(graph,source1,source2,source3):
     #upper and lower bounds dictionaries
     f_ub=dict()
     f_lb=dict()
@@ -151,9 +153,11 @@ def nra1(graph,source1,source2,source3):
            
         if c in r1_array and c in r1_array and c in r1_array:
             final_ub[c]=max(r1_array[c],r2_array[c],r3_array[c])  
-
-
-        if (max(f_lb, key=f_lb.get)>=max(final_ub, key=final_ub.get)):
+ 
+        
+       
+        if (min(f_lb, key=f_lb.get)>=max(final_ub, key=final_ub.get)):
+           
             m=min(final_ub, key=final_ub.get)
             
             if m== previous_m:
@@ -198,13 +202,13 @@ def main():
 
 
         
-        nra1(graph,source1,source2,source3)
+        nra(graph,source1,source2,source3)
 
 
 
 
 
 if __name__ == '__main__':
-  
+   
    main()
-
+   
