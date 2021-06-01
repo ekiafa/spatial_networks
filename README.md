@@ -8,11 +8,20 @@ Spatial networks and top k queries assignment in the context of Complex Data Man
 
 <h3>Program files:</h3>
    <li>  data.py : There is a script that allow us to organise our input files to a central construction in out.txt file.</li>
-   
+    <p>      </p>
+ 
+ > python3 data.py nodes.txt edges.txt
+  
    <li>  dijkstra_a_star.py : There are implementations about Dijkstra and A-star algorithms.A-star contains a expansion in evaluation equation.</li>
-   
+    <p>      </p>
+ 
+ > python3 dijkstra_a_star.py out.txt 1 10
+ 
    <li>  nra.py :Variation of No-Random-Access algorithm with Dijkstra usage for data input.</li>
-
+    <p>      </p>
+ 
+ > python3 nra.py out.txt 1 6 10
+ 
 <h3>Language:</h3>
      Python 3.6.0
 
