@@ -3,8 +3,8 @@ Spatial networks and top k queries assignment in the context of Complex Data Man
 
 
 <h3>Input files:</h3>
-edges.txt : contains edges for the undirected graph that we need,and weights for each of them
-nodes.txt : contains coordinates for each node in graph,needed for calculation of Euclidean distance in A-star algorithm
+<li>edges.txt : contains edges for the undirected graph that we need,and weights for each of them.</li>
+<li>nodes.txt : contains coordinates for each node in graph,needed for calculation of Euclidean distance in A-star algorithm</li>
 
 <h3>Programm files:</h3>
 data.py : There is a script that allow us to organise our input files to a central construction
