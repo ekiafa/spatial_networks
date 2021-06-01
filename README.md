@@ -3,16 +3,16 @@ Spatial networks and top k queries assignment in the context of Complex Data Man
 
 
 <h3>Input files:</h3>
-   <li>edges.txt : contains edges for the undirected graph that we need,and weights for each of them.</li>
-   <li>nodes.txt : contains coordinates for each node in graph,needed for calculation of Euclidean distance in A-star algorithm</li>
+   <li>  edges.txt : contains edges for the undirected graph that we need,and weights for each of them.</li>
+   <li>  nodes.txt : contains coordinates for each node in graph,needed for calculation of Euclidean distance in A-star algorithm</li>
 
 <h3>Program files:</h3>
-   <li>data.py : There is a script that allow us to organise our input files to a central construction in out.txt file.</li>
-   <li>dijkstra_a_star.py : There are implementations about Dijkstra and A-star algorithms.A-star contains a expansion in evaluation equation.</li>
-   <li>nra.py :Variation of No-Random-Access algorithm with Dijkstra usage for data input.</li>
+   <li>  data.py : There is a script that allow us to organise our input files to a central construction in out.txt file.</li>
+   <li>  dijkstra_a_star.py : There are implementations about Dijkstra and A-star algorithms.A-star contains a expansion in evaluation equation.</li>
+   <li>  nra.py :Variation of No-Random-Access algorithm with Dijkstra usage for data input.</li>
 
 <h3>Language:</h3>
-   Python 3.6.0
+     Python 3.6.0
 
 <h3>License:</h3>
-   MIT
+     MIT
